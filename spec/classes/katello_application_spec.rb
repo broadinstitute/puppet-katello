@@ -36,24 +36,24 @@ describe 'katello::application' do
 
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to create_package('tfm-rubygem-katello') }
-          it { is_expected.to contain_class('certs::qpid') }
+          it { is_expected.to contain_class('kcerts::qpid') }
           it { is_expected.to contain_class('katello::qpid_client') }
 
           it do
             is_expected.to create_foreman_config_entry('pulp_client_cert')
               .with_value('/etc/pki/katello/certs/pulp-client.crt')
-              .that_requires(['Class[Certs::Pulp_client]', 'Foreman::Rake[db:seed]'])
+              .that_requires(['Class[Kcerts::Pulp_client]', 'Foreman::Rake[db:seed]'])
           end
 
           it do
             is_expected.to create_foreman_config_entry('pulp_client_key')
               .with_value('/etc/pki/katello/private/pulp-client.key')
-              .that_requires(['Class[Certs::Pulp_client]', 'Foreman::Rake[db:seed]'])
+              .that_requires(['Class[Kcerts::Pulp_client]', 'Foreman::Rake[db:seed]'])
           end
 
           it do
             is_expected.to contain_service('httpd')
-              .that_subscribes_to(['Class[Certs::Apache]', 'Class[Certs::Ca]'])
+              .that_subscribes_to(['Class[Kcerts::Apache]', 'Class[Kcerts::Ca]'])
           end
 
           it do
@@ -68,7 +68,7 @@ describe 'katello::application' do
           end
 
           it do
-            is_expected.to contain_class('certs::qpid')
+            is_expected.to contain_class('kcerts::qpid')
               .that_notifies(['Class[Foreman::Plugin::Tasks]'])
           end
 

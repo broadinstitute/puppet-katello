@@ -13,29 +13,29 @@ class katello::candlepin (
   Boolean $manage_db = $katello::candlepin_manage_db,
   String $qpid_hostname = $katello::qpid_hostname,
 ) {
-  include certs
-  include certs::candlepin
+  include kcerts
+  include kcerts::candlepin
 
   class { 'candlepin':
     user_groups                  => $user_groups,
     oauth_key                    => $oauth_key,
     oauth_secret                 => $oauth_secret,
-    ca_key                       => $certs::candlepin::ca_key,
-    ca_cert                      => $certs::candlepin::ca_cert,
-    keystore_file                => $certs::candlepin::keystore,
-    keystore_password            => $certs::candlepin::keystore_password,
-    truststore_password          => $certs::candlepin::keystore_password,
+    ca_key                       => $kcerts::candlepin::ca_key,
+    ca_cert                      => $kcerts::candlepin::ca_cert,
+    keystore_file                => $kcerts::candlepin::keystore,
+    keystore_password            => $kcerts::candlepin::keystore_password,
+    truststore_password          => $kcerts::candlepin::keystore_password,
     enable_basic_auth            => false,
     consumer_system_name_pattern => '.+',
     adapter_module               => 'org.candlepin.katello.KatelloModule',
     amq_enable                   => true,
-    amqp_keystore_password       => $certs::candlepin::keystore_password,
-    amqp_truststore_password     => $certs::candlepin::keystore_password,
-    amqp_keystore                => $certs::candlepin::amqp_keystore,
-    amqp_truststore              => $certs::candlepin::amqp_truststore,
+    amqp_keystore_password       => $kcerts::candlepin::keystore_password,
+    amqp_truststore_password     => $kcerts::candlepin::keystore_password,
+    amqp_keystore                => $kcerts::candlepin::amqp_keystore,
+    amqp_truststore              => $kcerts::candlepin::amqp_truststore,
     qpid_hostname                => $qpid_hostname,
-    qpid_ssl_cert                => $certs::candlepin::client_cert,
-    qpid_ssl_key                 => $certs::candlepin::client_key,
+    qpid_ssl_cert                => $kcerts::candlepin::client_cert,
+    qpid_ssl_key                 => $kcerts::candlepin::client_key,
     db_host                      => $db_host,
     db_port                      => $db_port,
     db_name                      => $db_name,
@@ -44,7 +44,7 @@ class katello::candlepin (
     db_ssl                       => $db_ssl,
     db_ssl_verify                => $db_ssl_verify,
     manage_db                    => $manage_db,
-    subscribe                    => Class['certs', 'certs::candlepin'],
+    subscribe                    => Class['kcerts', 'kcerts::candlepin'],
   }
 
   contain candlepin

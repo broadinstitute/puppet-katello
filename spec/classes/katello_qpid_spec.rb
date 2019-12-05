@@ -20,8 +20,8 @@ describe 'katello::qpid' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('certs') }
-        it { is_expected.to contain_class('certs::qpid').that_notifies(['Service[qpidd]', 'Class[qpid]']) }
+        it { is_expected.to contain_class('kcerts') }
+        it { is_expected.to contain_class('kcerts::qpid').that_notifies(['Service[qpidd]', 'Class[qpid]']) }
         it { is_expected.not_to contain_user('foreman') }
 
         it do
@@ -54,7 +54,7 @@ describe 'katello::qpid' do
 
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to contain_user('foreman').with_groups(['puppet', 'qpidd']) }
-        it { is_expected.to contain_class('certs::qpid').that_notifies(['Service[qpidd]', 'Class[qpid]']) }
+        it { is_expected.to contain_class('kcerts::qpid').that_notifies(['Service[qpidd]', 'Class[qpid]']) }
 
         it do
           is_expected.to create_class('qpid')

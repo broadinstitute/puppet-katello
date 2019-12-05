@@ -23,33 +23,33 @@ class katello::application (
   Integer[0] $rest_client_timeout = $katello::rest_client_timeout,
 ) {
   include foreman
-  include certs
-  include certs::apache
-  include certs::foreman
-  include certs::pulp_client
-  include certs::qpid
+  include kcerts
+  include kcerts::apache
+  include kcerts::foreman
+  include kcerts::pulp_client
+  include kcerts::qpid
   include katello::qpid_client
 
-  $candlepin_ca_cert = $certs::ca_cert
-  $pulp_ca_cert = $certs::katello_server_ca_cert
-  $crane_ca_cert = $certs::katello_server_ca_cert
+  $candlepin_ca_cert = $kcerts::ca_cert
+  $pulp_ca_cert = $kcerts::katello_server_ca_cert
+  $crane_ca_cert = $kcerts::katello_server_ca_cert
 
   foreman_config_entry { 'pulp_client_cert':
-    value          => $certs::pulp_client::client_cert,
+    value          => $kcerts::pulp_client::client_cert,
     ignore_missing => false,
-    require        => [Class['certs::pulp_client'], Foreman::Rake['db:seed']],
+    require        => [Class['kcerts::pulp_client'], Foreman::Rake['db:seed']],
   }
 
   foreman_config_entry { 'pulp_client_key':
-    value          => $certs::pulp_client::client_key,
+    value          => $kcerts::pulp_client::client_key,
     ignore_missing => false,
-    require        => [Class['certs::pulp_client'], Foreman::Rake['db:seed']],
+    require        => [Class['kcerts::pulp_client'], Foreman::Rake['db:seed']],
   }
 
   include foreman::plugin::tasks
 
-  Class['certs', 'certs::ca', 'certs::apache'] ~> Class['apache::service']
-  Class['certs', 'certs::ca', 'certs::qpid'] ~> Class['foreman::plugin::tasks']
+  Class['kcerts', 'kcerts::ca', 'kcerts::apache'] ~> Class['apache::service']
+  Class['kcerts', 'kcerts::ca', 'kcerts::qpid'] ~> Class['foreman::plugin::tasks']
 
   # Katello database seeding needs candlepin
   package { $package_names:

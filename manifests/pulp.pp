@@ -29,8 +29,8 @@ class katello::pulp (
   Boolean $manage_db = $katello::pulp_manage_db,
   String $pub_dir_options = '+FollowSymLinks +Indexes',
 ) {
-  include certs
-  include certs::qpid_client
+  include kcerts
+  include kcerts::qpid_client
   include apache
 
   # Deploy as a part of the foreman vhost
@@ -44,8 +44,8 @@ class katello::pulp (
   class { 'pulp':
     server_name            => $server_name,
     messaging_url          => $messaging_url,
-    messaging_ca_cert      => $certs::qpid_client::qpid_client_ca_cert,
-    messaging_client_cert  => $certs::qpid_client::qpid_client_cert,
+    messaging_ca_cert      => $kcerts::qpid_client::qpid_client_ca_cert,
+    messaging_client_cert  => $kcerts::qpid_client::qpid_client_cert,
     messaging_transport    => 'qpid',
     messaging_auth_enabled => false,
     broker_url             => $broker_url,
@@ -66,7 +66,7 @@ class katello::pulp (
     repo_auth              => true,
     puppet_wsgi_processes  => 1,
     enable_katello         => true,
-    subscribe              => Class['certs', 'certs::qpid_client'],
+    subscribe              => Class['kcerts', 'kcerts::qpid_client'],
     worker_timeout         => $pulp_worker_timeout,
     db_name                => $db_name,
     db_seeds               => $db_seeds,

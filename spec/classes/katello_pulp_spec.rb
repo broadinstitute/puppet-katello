@@ -17,8 +17,8 @@ describe 'katello::pulp' do
         end
 
         it { is_expected.to compile.with_all_deps }
-        it { is_expected.to contain_class('certs') }
-        it { is_expected.to contain_class('certs::qpid_client') }
+        it { is_expected.to contain_class('kcerts') }
+        it { is_expected.to contain_class('kcerts::qpid_client') }
 
         it do
           is_expected.to create_class('pulp')
@@ -48,7 +48,7 @@ describe 'katello::pulp' do
             .with_db_name('pulp_database')
             .with_db_seeds('localhost:27017')
             .with_db_ssl(false)
-            .that_subscribes_to('Class[Certs::Qpid_client]')
+            .that_subscribes_to('Class[Kcerts::Qpid_client]')
         end
 
         it do

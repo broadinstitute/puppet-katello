@@ -2,7 +2,7 @@ fixtures:
   repositories:
     apache:        "https://github.com/puppetlabs/puppetlabs-apache.git"
     candlepin:     "https://github.com/theforeman/puppet-candlepin.git"
-    certs:         "https://github.com/theforeman/puppet-certs.git"
+    kcerts:         "https://github.com/theforeman/puppet-certs.git"
     concat:        "https://github.com/puppetlabs/puppetlabs-concat.git"
     cron_core:
       repo: 'https://github.com/puppetlabs/puppetlabs-cron_core'
