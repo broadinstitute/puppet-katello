@@ -177,6 +177,7 @@ class katello (
   Boolean $pulp_db_unsafe_autoretry = $katello::params::pulp_db_unsafe_autoretry,
   Optional[Enum['majority', 'all']] $pulp_db_write_concern = $katello::params::pulp_db_write_concern,
   Boolean $pulp_manage_db = $katello::params::pulp_manage_db,
+  Optional[String] $pulp_url = $katello::params::pulp_url,
 ) inherits katello::params {
 
   include katello::repo
